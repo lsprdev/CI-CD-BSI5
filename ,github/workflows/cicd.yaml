@@ -29,5 +29,25 @@ jobs:
           context: .
           push: true
           tags: |
-            ogabrielpereiraa/ci-cd-bsi5:latest
-            ogabrielpereiraa/ci-cd-bsi5:${{ github.sha }}
+            ogabrielpereiraa/ci-cd-bsi:latest
+            ogabrielpereiraa/ci-cd-bsi:${{ github.sha }}
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Update kustomization.yaml
+        run: |
+          cd k8s
+          kustomize edit set image hello-fastapi=ogabrielpereiraa/ci-cd-bsi:$GITHUB_SHA
+
+      - name: Commit changes
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git commit -am "Update kustomization.yaml with new image"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
