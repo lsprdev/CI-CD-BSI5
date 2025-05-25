@@ -1,9 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - deployment.yaml
-  - service.yaml
+- deployment.yaml
+- service.yaml
 images:
-  - name: app
-    newName: ogabrielpereiraa/ci-cd-bsi
-    newTag: latest
+- name: app
+  newName: ogabrielpereiraa/ci-cd-bsi
+  newTag: latest
+- name: hello-fastapi
+  newName: ogabrielpereiraa/ci-cd-bsi
+  newTag: f842ce26217c9c74bbb4b3b69ceee97528db8d45
